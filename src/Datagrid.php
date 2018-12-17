@@ -94,6 +94,9 @@ class Datagrid extends UI\Control
 	/** @var array */
 	protected $cellsTemplates = [];
 
+	/** @var bool */
+	protected $useAjax = true;
+
 
 	/**
 	 * Adds column
@@ -242,6 +245,9 @@ class Datagrid extends UI\Control
 		return $templates;
 	}
 
+	public function useAjax($use) {
+		$this->useAjax = (bool) $use;
+	}
 
 	public function setTranslator(ITranslator $translator)
 	{
@@ -281,6 +287,7 @@ class Datagrid extends UI\Control
 		$this->template->paginator = $this->paginator;
 		$this->template->sendOnlyRowParentSnippet = $this->sendOnlyRowParentSnippet;
 		$this->template->cellsTemplates = $this->getCellsTemplates();
+		$this->template->useAjax = $this->useAjax;
 		$this->template->showFilterCancel = $this->filterDataSource != $this->filterDefaults; // @ intentionaly
 		$this->template->setFile(__DIR__ . '/Datagrid.latte');
 
