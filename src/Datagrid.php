@@ -31,6 +31,9 @@ class Datagrid extends UI\Control
 	/** @var array of callbacks: function(Datagrid) */
 	public $onRender = [];
 
+	/** @var array of callbacks: function(Datagrid, Form) */
+	public $onFormProcessed = [];
+
 	/** @persistent */
 	public $filter = [];
 
@@ -559,6 +562,11 @@ class Datagrid extends UI\Control
 				}
 			}
 		}
+
+		$this->onFormProcessed(
+			$this,
+			$form
+		);
 
 		if (!$this->presenter->isAjax() && $allowRedirect) {
 			$this->redirect('this');
