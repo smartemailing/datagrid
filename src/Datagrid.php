@@ -14,10 +14,9 @@ use Nette\Bridges\ApplicationLatte\Template;
 use Nette\Forms\Container;
 use Nette\Forms\Controls\Button;
 use Nette\Forms\Controls\Checkbox;
+use Nette\Localization\ITranslator;
 use Nette\Utils\Html;
 use Nette\Utils\Paginator;
-use Nette\Localization\ITranslator;
-
 
 class Datagrid extends UI\Control
 {
@@ -102,6 +101,11 @@ class Datagrid extends UI\Control
 	/** @var string */
 	protected $filterFormHttpMethod = 'post';
 
+	/** @var string */
+	protected $globalActionSelectPrompt = '- select action -';
+
+	/** @var string */
+	protected $globalActionProcessLabel = 'Do';
 
 	/**
 	 * Adds column
@@ -280,6 +284,22 @@ class Datagrid extends UI\Control
 		return $translator === null || $s == null || $s instanceof Html // intentionally ==
 			? $s
 			: $translator->translate((string) $s, $count);
+	}
+
+	/**
+	 * @param string $globalActionSelectPrompt
+	 */
+	public function setGlobalActionSelectPrompt($globalActionSelectPrompt)
+	{
+		$this->globalActionSelectPrompt = $globalActionSelectPrompt;
+	}
+
+	/**
+	 * @param string $globalActionProcessLabel
+	 */
+	public function setGlobalActionProcessLabel($globalActionProcessLabel)
+	{
+		$this->globalActionProcessLabel = $globalActionProcessLabel;
 	}
 
 
@@ -488,9 +508,9 @@ class Datagrid extends UI\Control
 			$actions = array_map(function($row) { return $row[0]; }, $this->globalActions);
 			$form['actions'] = new Container();
 			$form['actions']->addSelect('action', 'Action', $actions)
-				->setPrompt('- select action -');
+				->setPrompt($this->globalActionSelectPrompt);
 			$form['actions']->addCheckboxList('items', '', []);
-			$form['actions']->addSubmit('process', 'Do');
+			$form['actions']->addSubmit('process', $this->globalActionProcessLabel);
 		}
 
 		if ($this->translator) {
