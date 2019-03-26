@@ -11,7 +11,6 @@ namespace Nextras\Datagrid;
 
 use Nette;
 
-
 class Column
 {
 	use Nette\SmartObject;
@@ -27,6 +26,8 @@ class Column
 
 	/** @var Datagrid */
 	protected $grid;
+
+	private $classes = [];
 
 
 	public function __construct($name, $label, Datagrid $grid)
@@ -79,5 +80,15 @@ class Column
 	public function isDesc()
 	{
 		return $this->grid->orderColumn === $this->name && $this->grid->orderType === Datagrid::ORDER_DESC;
+	}
+
+	public function addClass($class)
+	{
+		$this->classes[] = $class;
+	}
+
+	public function getClassesString()
+	{
+		return \implode(' ', $this->classes);
 	}
 }

@@ -26,7 +26,7 @@
 			<th class="grid-col-global-actions"></th>
 		{/ifset}
 		{foreach $columns as $column}
-			<th class="grid-col-{$column->name}">
+			<th class="grid-col-{$column->name} {$column->getClassesString()}">
 				{if $column->canSort()}
 					<a href="{link sort! orderColumn => $column->name, orderType => $column->getNewState()}" n:class="$useAjax ? 'ajax'">{$column->label}</a>
 					{if $column->isAsc()}
@@ -62,7 +62,7 @@
 	<tr class="grid-filters">
 		{ifset $form[actions]}
 			<th class="grid-col-global-actions"></th>
-		{/ifset}	
+		{/ifset}
 		{formContainer filter}
 		{foreach $columns as $column}
 			<th class="grid-col-{$column->name}">
